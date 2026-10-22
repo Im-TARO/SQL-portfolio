@@ -5,11 +5,17 @@ This SQL project generates a date dimension table with date related attributes t
 ## SQL Scripts
 
 ```text
+sql/00_create_database.sql
 sql/01_create_date_table.sql
 sql/02_create_procedure.sql
 ```
 
-### :black_circle: `01_create_date_table.sql` - creates a date dimension table
+### `00_create_database.sql` - creates `public` database
+
+### `01_create_date_table.sql` - creates a date dimension table
+
+<details>
+<summary>Expand to view details.</summary>
 
 <div align="center">
 
@@ -29,8 +35,12 @@ sql/02_create_procedure.sql
 | `is_holiday` | `TINYINT` | Yes | | Flag 1 = US holiday, 0 = not a holiday |
 
 </div>
+</details>
 
-### :black_circle: `02_create_procedure.sql` - stored procedure adds dates to the `dates` table
+### `02_create_procedure.sql` - stored procedure adds dates to the `dates` table
+
+<details>
+<summary>Expand to view details.</summary>
 
 #### Input parameters
 
@@ -72,10 +82,12 @@ end
   E --> F[(dates table\none row per calendar day)]
 ```
 
+</details>
+
 ## Execution
 
 ```sql
-CALL load_dates ('2018-01-01', '2026-12-31');
+CALL public.load_dates ('2018-01-01', '2027-12-31');
 ```
 
 ## Testing and Verification
@@ -86,7 +98,7 @@ SELECT COUNT(*) FROM dates;
 
 | COUNT(*) |
 |----------|
-| 3287     |
+| 3652     |
 
 ```sql
 DESC dates

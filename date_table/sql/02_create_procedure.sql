@@ -1,3 +1,4 @@
+USE public;
 DROP PROCEDURE IF EXISTS load_dates;
 
 delimiter $$
@@ -9,7 +10,7 @@ CREATE PROCEDURE load_dates (p_start_date DATE, p_end_date DATE) begin
 |* ======================================================== */
 SET SESSION cte_max_recursion_depth=5000;
 
-INSERT INTO dates
+REPLACE INTO dates
 WITH RECURSIVE
 /* ------------------------------------------------------------*|
 |* STEP 1: DATE RANGE														*|	
