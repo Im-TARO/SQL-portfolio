@@ -141,7 +141,7 @@ FROM dates;
 SELECT * FROM dates;
 ```
 
-Showing 5 of 3,287 rows
+Showing 5 of 3,652 rows
 
 | date_key | date | year | quarter | month_name | month_sort | day_name | day_sort | is_weekend | is_holiday |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
