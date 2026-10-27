@@ -24,6 +24,7 @@ CREATE TABLE dates (
   `day_sort` int DEFAULT NULL comment 'Day of week number, use to sort day_name',
   `is_weekend` tinyint DEFAULT NULL comment 'Flag 1 = Saturday/Sunday, 0 = weekday',
   `is_holiday` tinyint DEFAULT NULL comment 'Flag 1 = US holiday, 0 = not a holiday',
+  `holiday_name` varchar(30) DEFAULT NULL comment 'Holiday name for display',
   PRIMARY KEY (`date_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci comment='Date dimension: one row per calendar date with date related attributes';
 

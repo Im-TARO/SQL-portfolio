@@ -33,6 +33,7 @@ sql/02_create_procedure.sql
 | `day_sort` | `INT` | Yes | | Day of week number, use to sort day_name |
 | `is_weekend` | `TINYINT` | Yes | | Flag 1 = Saturday/Sunday, 0 = weekday |
 | `is_holiday` | `TINYINT` | Yes | | Flag 1 = US holiday, 0 = not a holiday |
+| `holiday_name` | `VARCHAR(30)` | Yes | | Holiday name for display |
 
 </div>
 </details>
@@ -116,6 +117,7 @@ DESC dates
 | day_sort | int | YES | | NULL | |
 | is_weekend | tinyint | YES | | NULL | |
 | is_holiday | tinyint | YES | | NULL | |
+| holiday_name | varchar(30) | YES | | NULL | |
 
 ```sql
 -- Check for NULL values
@@ -129,13 +131,16 @@ SELECT
   count(*)-count(day_name) missing_day_name,
   count(*)-count(day_sort) missing_day_sort,
   count(*)-count(is_weekend) missing_is_weekend,
-  count(*)-count(is_holiday) missing_is_holiday
+  count(*)-count(is_holiday) missing_is_holiday,
+  count(*)-count(holiday_name) missing_is_holiday_name
 FROM dates;
 ```
 
-| missing_date_key | missing_date | missing_year | missing_quarter | missing_month_name | missing_month_sort | missing_day_name | missing_day_sort | missing_is_weekend | missing_is_holiday |
-| -- | -- | -- | -- | -- | -- | -- | -- | -- | -- |
-| 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| missing_date_key | missing_date | missing_year | missing_quarter | missing_month_name | missing_month_sort | missing_day_name | missing_day_sort | missing_is_weekend | missing_is_holiday | missing_is_holiday_name |
+| -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- |
+| 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 3545 |
+
+NULLs are expected in the column holiday_name
 
 ```sql
 SELECT * FROM dates;
@@ -143,12 +148,12 @@ SELECT * FROM dates;
 
 Showing 5 of 3,652 rows
 
-| date_key | date | year | quarter | month_name | month_sort | day_name | day_sort | is_weekend | is_holiday |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 20180101 | 2018-01-01 | 2018 | 1 | January | 1 | Monday | 2 | 0 | 1 |
-| 20180102 | 2018-01-02 | 2018 | 1 | January | 1 | Tuesday | 3 | 0 | 0 |
-| 20180103 | 2018-01-03 | 2018 | 1 | January | 1 | Wednesday | 4 | 0 | 0 |
-| 20180104 | 2018-01-04 | 2018 | 1 | January | 1 | Thursday | 5 | 0 | 0 |
-| 20180105 | 2018-01-05 | 2018 | 1 | January | 1 | Friday | 6 | 0 | 0 |
+| date_key | date | year | quarter | month_name | month_sort | day_name | day_sort | is_weekend | is_holiday | holiday_name |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 20180101 | 2018-01-01 | 2018 | 1 | January | 1 | Monday | 2 | 0 | 1 | New Years Day |
+| 20180102 | 2018-01-02 | 2018 | 1 | January | 1 | Tuesday | 3 | 0 | 0 | NULL |
+| 20180103 | 2018-01-03 | 2018 | 1 | January | 1 | Wednesday | 4 | 0 | 0 | NULL |
+| 20180104 | 2018-01-04 | 2018 | 1 | January | 1 | Thursday | 5 | 0 | 0 | NULL |
+| 20180105 | 2018-01-05 | 2018 | 1 | January | 1 | Friday | 6 | 0 | 0 | NULL |
 
 [See full results](data/dates.csv)

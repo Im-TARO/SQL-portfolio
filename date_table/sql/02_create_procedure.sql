@@ -139,7 +139,7 @@ SELECT
     -- Holiday flag: evaluates fixed holidays first, then Monday-based holidays,
     -- then Thanksgiving. Returns 1 if any condition matches, else 0.
     CASE
-        WHEN fh.observed_date IS NOT NULL                THEN 1  -- New Year's, Juneteenth, Jul 4, Veterans, Christmas
+        WHEN fh.observed_date IS NOT NULL               THEN 1  -- New Year's, Juneteenth, Jul 4, Veterans, Christmas
         WHEN MONTH(d.dates) = 1  AND m.monday_num  = 3  THEN 1  -- MLK Jr Day        (3rd Mon in Jan)
         WHEN MONTH(d.dates) = 2  AND m.monday_num  = 3  THEN 1  -- Presidents Day    (3rd Mon in Feb)
         WHEN MONTH(d.dates) = 5  AND m.monday_rank = 1  THEN 1  -- Memorial Day      (last Mon in May)
@@ -147,8 +147,17 @@ SELECT
         WHEN MONTH(d.dates) = 10 AND m.monday_num  = 2  THEN 1  -- Columbus Day      (2nd Mon in Oct)
         WHEN MONTH(d.dates) = 11 AND t.thursday_num = 4 THEN 1  -- Thanksgiving      (4th Thu in Nov)
         ELSE 0
-    END AS is_holiday
-
+    END AS is_holiday,
+ CASE 
+     WHEN fh.holiday_name IS NOT NULL THEN fh.holiday_name 
+     WHEN MONTH(d.dates) = 1 AND m.monday_num = 3 THEN 'Martin Luther King Jr. Day' 
+     WHEN MONTH(d.dates) = 2 AND m.monday_num = 3 THEN 'Presidents Day' 
+     WHEN MONTH(d.dates) = 5 AND m.monday_rank = 1 THEN 'Memorial Day' 
+     WHEN MONTH(d.dates) = 9 AND m.monday_num = 1 THEN 'Labor Day' 
+     WHEN MONTH(d.dates) = 10 AND m.monday_num = 2 THEN 'Columbus Day' 
+     WHEN MONTH(d.dates) = 11 AND t.thursday_num = 4 THEN 'Thanksgiving'
+     ELSE NULL
+ END AS holiday_name
 FROM date_range d
 LEFT JOIN mondays        m  ON d.dates = m.dates           -- Matches only Mondays in relevant months
 LEFT JOIN thanksgiving   t  ON d.dates = t.dates           -- Matches only Thursdays in November
